@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IQ Data Organizer — Introvert Quiet Path</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lato:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* IQ Brand — Introvert Quiet Path */
+  --fb-blue:        #2D5B8A;
+  --fb-blue-hover:  #245079;
+  --fb-blue-dark:   #1A3D5C;
+  --fb-blue-light:  #EBF2F9;
+  --fb-blue-mid:    #C4D9EC;
+  --bg:             #F4F7FA;
+  --surface:        #FFFFFF;
+  --surface2:       #F0F4F8;
+  --surface3:       #E2EAF2;
+  --border:         #C8D5E3;
+  --border-light:   #DDE7F0;
+  --text:           #1A2B3C;
+  --text2:          #5A6E82;
+  --text3:          #8FA3B8;
+  --green:          #4A9B7A;
+  --green-light:    #E8F5F0;
+  --amber:          #C4956A;
+  --amber-light:    #FBF3EB;
+  --red:            #B05C6A;
+  --red-light:      #F9EDEF;
+  --teal:           #3A7CA5;
+  --teal-light:     #E3F0F8;
+  --accent:         #7BA7C4;
+  --accent-soft:    #D4E6F1;
+  --navy:           #1C3D5A;
+  --radius:         12px;
+  --radius-sm:      9px;
+  --radius-xs:      6px;
+  --shadow-sm:      0 1px 4px rgba(44,91,138,0.07);
+  --shadow-card:    0 4px 20px rgba(44,91,138,0.10);
+}
+
+body { font-family:'Lato',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+
+.app { display:flex; min-height:100vh; }
+
+/* ── Top Nav ── */
+.topnav {
+  position:fixed; top:0; left:0; right:0; z-index:100; height:56px;
+  background:var(--surface); border-bottom:1px solid var(--border-light);
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  display:flex; align-items:center; justify-content:space-between; padding:0 16px; gap:12px;
+}
+.nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo-icon { width:40px; height:40px; border-radius:50%; background:var(--navy); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.nav-logo-icon svg { width:22px; height:22px; fill:none; stroke:white; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.nav-logo-text { font-size:18px; font-weight:600; color:var(--navy); letter-spacing:0.08em; font-family:'Lato',sans-serif; text-transform:uppercase; }
+.nav-center { display:flex; align-items:center; gap:4px; }
+.nav-tab { display:flex; align-items:center; justify-content:center; padding:8px 28px; border-radius:var(--radius-sm); cursor:pointer; font-size:14px; font-weight:500; color:var(--text2); transition:all 0.15s; border:none; background:transparent; font-family:'Lato',sans-serif; position:relative; letter-spacing:0.02em; }
+.nav-tab:hover { background:var(--surface2); color:var(--text); }
+.nav-tab.active { color:var(--fb-blue); }
+.nav-tab.active::after { content:''; position:absolute; bottom:-8px; left:0; right:0; height:2px; background:var(--fb-blue); border-radius:3px 3px 0 0; }
+.nav-tab svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.nav-right { display:flex; align-items:center; gap:8px; }
+.nav-icon-btn { width:40px; height:40px; border-radius:50%; background:var(--surface2); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s; color:var(--text2); }
+.nav-icon-btn:hover { background:var(--surface3); }
+.nav-icon-btn svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.nav-avatar { width:40px; height:40px; border-radius:50%; background:var(--navy); display:flex; align-items:center; justify-content:center; color:white; font-size:13px; font-weight:700; cursor:pointer; flex-shrink:0; font-family:'Cormorant Garamond',serif; }
+
+/* ── Body ── */
+.body-root { display:flex; padding-top:56px; min-height:100vh; overflow-x:hidden; }
+
+/* ── Sidebar ── */
+.sidebar { width:220px; flex-shrink:0; padding:16px 8px; position:sticky; top:56px; height:calc(100vh - 56px); overflow-y:auto; }
+.sidebar-heading { font-size:11px; font-weight:700; color:var(--text3); padding:8px 12px 6px; letter-spacing:0.12em; text-transform:uppercase; font-family:'Lato',sans-serif; }
+.sidebar-item { display:flex; align-items:center; gap:12px; padding:8px 12px; border-radius:var(--radius-sm); font-size:14px; font-weight:500; color:var(--text); cursor:pointer; transition:background 0.12s; text-decoration:none; font-family:'Lato',sans-serif; }
+.sidebar-item:hover { background:var(--surface3); }
+.sidebar-item.active { background:var(--fb-blue-light); color:var(--fb-blue); }
+.sidebar-icon { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.sidebar-icon.blue  { background:var(--fb-blue-light); color:var(--fb-blue); }
+.sidebar-icon.green { background:var(--green-light);   color:var(--green); }
+.sidebar-icon.amber { background:var(--amber-light);   color:#B8860B; }
+.sidebar-icon.red   { background:var(--red-light);     color:var(--red); }
+.sidebar-icon.teal  { background:var(--teal-light);    color:var(--teal); }
+.sidebar-icon svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.sidebar-count { margin-left:auto; font-size:12px; font-weight:600; color:var(--text2); background:var(--surface2); padding:1px 9px; border-radius:20px; }
+.sidebar-count.blue { background:var(--fb-blue-light); color:var(--fb-blue); }
+.sidebar-divider { height:1px; background:var(--border-light); margin:10px 12px; }
+.sidebar-sync { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--fb-blue-light); border-radius:var(--radius-sm); font-size:12px; color:var(--fb-blue); font-weight:600; margin:8px 4px; letter-spacing:0.02em; }
+.sync-dot { width:7px; height:7px; border-radius:50%; background:var(--green); flex-shrink:0; animation:pulse 2.2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+/* ── Feed ── */
+.feed { flex:1; padding:16px 16px; min-width:0; overflow-x:hidden; }
+
+/* ── Right Col ── */
+.right-col { width:270px; flex-shrink:0; padding:16px 8px; position:sticky; top:56px; height:calc(100vh - 56px); overflow-y:auto; }
+
+/* ── Buttons ── */
+.btn { display:inline-flex; align-items:center; gap:7px; padding:8px 16px; border-radius:var(--radius-sm); font-size:12px; font-weight:600; font-family:'Lato',sans-serif; cursor:pointer; border:none; transition:all 0.15s; letter-spacing:0.05em; text-transform:uppercase; }
+.btn svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.3; stroke-linecap:round; stroke-linejoin:round; }
+.btn-primary { background:var(--navy); color:white; }
+.btn-primary:hover { background:var(--fb-blue-dark); }
+.btn-secondary { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+.btn-secondary:hover { background:var(--surface3); }
+.btn-danger { background:var(--red-light); color:var(--red); border:1px solid rgba(176,92,106,0.2); }
+.btn-danger:hover { background:#f3dde1; }
+.btn-sm { padding:6px 14px; font-size:12px; }
+.btn-xs { padding:4px 11px; font-size:11px; }
+
+/* ── Metrics ── */
+.metrics-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+.metric-card { background:var(--surface); border:1px solid var(--border-light); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow-sm); transition:box-shadow 0.15s,transform 0.15s; }
+.metric-card:hover { box-shadow:var(--shadow-card); transform:translateY(-1px); }
+.metric-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.metric-ico { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.metric-ico svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.metric-ico.blue  { background:var(--fb-blue-light); color:var(--fb-blue); }
+.metric-ico.green { background:var(--green-light);   color:var(--green); }
+.metric-ico.amber { background:var(--amber-light);   color:#B8860B; }
+.metric-ico.red   { background:var(--red-light);     color:var(--red); }
+.metric-val { font-size:28px; font-weight:300; color:var(--navy); letter-spacing:-0.02em; line-height:1; font-family:'Cormorant Garamond',serif; }
+.metric-lbl { font-size:11px; color:var(--text2); margin-top:4px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; }
+
+/* ── Card ── */
+.card { background:var(--surface); border:1px solid var(--border-light); border-radius:var(--radius); box-shadow:var(--shadow-card); margin-bottom:16px; overflow:hidden; }
+.card-header { padding:14px 18px 12px; border-bottom:1px solid var(--border-light); display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.card-title { font-size:15px; font-weight:700; color:var(--text); font-family:'Cormorant Garamond',serif; letter-spacing:0.01em; }
+.table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
+/* ── Toolbar ── */
+.toolbar { display:flex; align-items:center; gap:10px; padding:12px 14px 0; flex-wrap:wrap; }
+.search-wrap { position:relative; flex:1; min-width:180px; }
+.search-wrap svg { position:absolute; left:11px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--text3); fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; pointer-events:none; }
+.search-input { width:100%; padding:9px 12px 9px 35px; background:var(--surface2); border:1px solid var(--border); border-radius:20px; font-size:13px; font-family:'Lato',sans-serif; color:var(--text); outline:none; transition:all 0.18s; }
+.search-input::placeholder { color:var(--text3); }
+.search-input:focus { border-color:var(--fb-blue); background:white; box-shadow:0 0 0 3px rgba(45,91,138,0.12); }
+.type-sel { padding:9px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:20px; font-size:13px; font-family:'Lato',sans-serif; color:var(--text2); outline:none; cursor:pointer; font-weight:500; }
+.type-sel:focus { border-color:var(--fb-blue); }
+.filter-strip { display:flex; gap:5px; padding:10px 14px; border-bottom:1px solid var(--border-light); flex-wrap:wrap; }
+.ftab { padding:5px 14px; border-radius:20px; font-size:12px; font-weight:600; color:var(--text2); cursor:pointer; transition:all 0.15s; border:1px solid transparent; background:var(--surface2); font-family:'Lato',sans-serif; letter-spacing:0.04em; text-transform:uppercase; }
+.ftab:hover { background:var(--surface3); color:var(--text); }
+.ftab.active { background:var(--fb-blue-light); color:var(--fb-blue); border-color:var(--fb-blue-mid); }
+
+/* ── Table ── */
+.table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+table { width:100%; min-width:720px; border-collapse:collapse; }
+thead tr { background:var(--surface2); }
+th { padding:10px 12px; text-align:left; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--text3); white-space:nowrap; }
+td { padding:11px 12px; border-top:1px solid var(--border-light); vertical-align:middle; }
+tbody tr { transition:background 0.1s; cursor:pointer; }
+tbody tr:hover { background:var(--fb-blue-light); }
+.entry-title { font-weight:600; color:var(--text); font-size:14px; }
+.entry-desc { font-size:12px; color:var(--text2); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:160px; }
+.entry-id { font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--text3); font-weight:500; }
+.entry-date { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text2); white-space:nowrap; }
+.entry-date-day { font-weight:600; color:var(--text); font-size:12px; }
+.entry-date-time { font-size:11px; color:var(--text3); margin-top:1px; }
+
+.type-badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:20px; font-size:12px; font-weight:600; }
+.type-badge.report   { background:var(--fb-blue-light); color:var(--fb-blue); }
+.type-badge.document { background:var(--teal-light);    color:var(--teal); }
+.type-badge.dataset  { background:var(--amber-light);   color:#B8860B; }
+.type-badge.media    { background:var(--green-light);   color:#2E7D32; }
+.type-badge.other    { background:var(--surface2);      color:var(--text2); }
+
+.status-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:12px; font-weight:600; }
+.status-badge::before { content:''; width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.status-badge.active   { background:var(--green-light); color:#2E7D32; }
+.status-badge.active::before   { background:var(--green); }
+.status-badge.draft    { background:var(--surface2);    color:var(--text2); }
+.status-badge.draft::before    { background:var(--text3); }
+.status-badge.archived { background:var(--amber-light); color:#B8860B; }
+.status-badge.archived::before { background:var(--amber); }
+.status-badge.review   { background:var(--fb-blue-light); color:var(--fb-blue); }
+.status-badge.review::before   { background:var(--fb-blue); }
+
+.file-chip { display:inline-flex; align-items:center; gap:5px; background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:3px 9px; font-size:11.5px; color:var(--text2); cursor:pointer; white-space:nowrap; transition:all 0.15s; }
+.file-chip:hover { border-color:var(--fb-blue); color:var(--fb-blue); background:var(--fb-blue-light); }
+.file-chip svg { width:11px; height:11px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.no-file { font-size:12px; color:var(--text3); }
+.row-acts { display:flex; gap:5px; opacity:0; transition:opacity 0.15s; }
+tbody tr:hover .row-acts { opacity:1; }
+
+.empty-state { text-align:center; padding:56px 20px; }
+.empty-state svg { width:48px; height:48px; margin:0 auto 14px; display:block; fill:none; stroke:var(--text3); stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+.empty-state p { font-size:15px; font-weight:600; color:var(--text2); margin-bottom:5px; }
+.empty-state span { font-size:13px; color:var(--text3); }
+
+/* ── Right column ── */
+.rc-card { background:var(--surface); border:1px solid var(--border-light); border-radius:var(--radius); box-shadow:var(--shadow-sm); margin-bottom:14px; overflow:hidden; }
+.rc-head { padding:14px 16px 12px; border-bottom:1px solid var(--border-light); display:flex; align-items:center; justify-content:space-between; }
+.rc-title { font-size:15px; font-weight:300; color:var(--navy); font-family:'Cormorant Garamond',serif; letter-spacing:0.02em; }
+.rc-body { padding:14px 16px; }
+
+/* Form */
+.form-stack { display:flex; flex-direction:column; gap:11px; }
+.f-label { font-size:11px; font-weight:700; color:var(--text2); margin-bottom:5px; letter-spacing:0.06em; text-transform:uppercase; }
+.f-input, .f-select, .f-textarea { width:100%; padding:9px 12px; background:white; border:1.5px solid var(--border); border-radius:var(--radius-sm); font-size:14px; font-family:'Lato',sans-serif; color:var(--text); outline:none; transition:all 0.18s; }
+.f-input::placeholder, .f-textarea::placeholder { color:var(--text3); }
+.f-input:focus, .f-select:focus, .f-textarea:focus { border-color:var(--fb-blue); box-shadow:0 0 0 3px rgba(45,91,138,0.12); }
+.f-textarea { resize:none; line-height:1.5; }
+.f-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.upload-zone { border:1.5px dashed var(--border); border-radius:var(--radius-sm); padding:14px; text-align:center; cursor:pointer; background:var(--surface2); transition:all 0.2s; }
+.upload-zone:hover { border-color:var(--fb-blue); background:var(--fb-blue-light); }
+.upload-zone svg { width:22px; height:22px; margin:0 auto 7px; display:block; fill:none; stroke:var(--text3); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.upload-zone p { font-size:12px; color:var(--text3); font-weight:500; }
+.upload-zone .fname { color:var(--fb-blue); font-weight:600; }
+.form-btns { display:flex; gap:8px; }
+.form-btns .btn { flex:1; justify-content:center; }
+
+/* Drive */
+.drive-file { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--border-light); }
+.drive-file:last-child { border-bottom:none; }
+.drive-ico { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; flex-shrink:0; }
+.drive-ico.pdf  { background:var(--red-light);     color:var(--red); }
+.drive-ico.doc  { background:var(--fb-blue-light); color:var(--fb-blue); }
+.drive-ico.img  { background:var(--green-light);   color:var(--green); }
+.drive-ico.xls  { background:var(--teal-light);    color:var(--teal); }
+.drive-ico.file { background:var(--surface2);      color:var(--text3); }
+.drive-info { flex:1; overflow:hidden; }
+.drive-fname { font-size:13px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.drive-fsub  { font-size:11.5px; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.drive-open  { font-size:12px; color:var(--fb-blue); font-weight:600; cursor:pointer; background:none; border:none; font-family:'Inter',sans-serif; flex-shrink:0; padding:4px 8px; border-radius:6px; transition:background 0.15s; }
+.drive-open:hover { background:var(--fb-blue-light); }
+.drive-empty { font-size:13px; color:var(--text3); text-align:center; padding:16px 0; }
+
+/* Activity */
+.act-item { display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--border-light); font-size:13px; color:var(--text2); }
+.act-item:last-child { border-bottom:none; }
+.act-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+.act-dot.blue  { background:var(--fb-blue); }
+.act-dot.green { background:var(--green); }
+.act-dot.amber { background:var(--amber); }
+.act-dot.red   { background:var(--red); }
+.act-time { font-size:11px; color:var(--text3); font-family:'JetBrains Mono',monospace; margin-top:2px; }
+
+/* Detail Drawer */
+.detail-panel { position:fixed; top:56px; right:0; bottom:0; width:380px; background:var(--surface); border-left:1px solid var(--border); z-index:200; transform:translateX(100%); transition:transform 0.28s cubic-bezier(0.4,0,0.2,1); overflow-y:auto; display:flex; flex-direction:column; box-shadow:-4px 0 24px rgba(0,0,0,0.1); }
+.detail-panel.open { transform:translateX(0); }
+.detail-header { padding:18px 20px; border-bottom:1px solid var(--border-light); display:flex; align-items:flex-start; justify-content:space-between; gap:12px; background:var(--navy); }
+.detail-title { font-size:17px; font-weight:700; color:white; }
+.detail-id { font-size:12px; color:rgba(255,255,255,0.75); font-family:'JetBrains Mono',monospace; margin-top:3px; }
+.detail-close { background:rgba(255,255,255,0.2); border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:white; flex-shrink:0; transition:background 0.15s; }
+.detail-close:hover { background:rgba(255,255,255,0.35); }
+.detail-close svg { width:14px; height:14px; display:block; fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round; }
+.detail-body { padding:20px; flex:1; display:flex; flex-direction:column; gap:16px; }
+.d-row { display:flex; flex-direction:column; gap:5px; }
+.d-key { font-size:11px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--text3); }
+.d-val { font-size:14px; color:var(--text); font-weight:500; }
+.d-desc { font-size:13.5px; color:var(--text2); line-height:1.7; }
+.d-notes { background:var(--surface2); border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:12px 14px; font-size:13px; color:var(--text2); font-family:'JetBrains Mono',monospace; line-height:1.7; }
+.detail-foot { padding:14px 20px; border-top:1px solid var(--border-light); display:flex; gap:10px; }
+.detail-foot .btn { flex:1; justify-content:center; }
+
+/* Modal */
+.modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; z-index:1000; opacity:0; pointer-events:none; transition:opacity 0.2s; backdrop-filter:blur(3px); }
+.modal-bg.open { opacity:1; pointer-events:all; }
+.modal { background:white; border-radius:var(--radius); padding:28px; width:420px; max-width:92vw; transform:translateY(16px) scale(0.97); transition:transform 0.22s; box-shadow:0 20px 60px rgba(0,0,0,0.2); }
+.modal-bg.open .modal { transform:translateY(0) scale(1); }
+.modal h3 { font-size:17px; font-weight:700; margin-bottom:8px; }
+.modal p { font-size:14px; color:var(--text2); margin-bottom:22px; line-height:1.6; }
+.modal-acts { display:flex; gap:10px; justify-content:flex-end; }
+
+/* Toast */
+#toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(14px); background:var(--navy); color:white; padding:11px 22px; border-radius:var(--radius-sm); font-size:13px; font-weight:500; opacity:0; transition:all 0.25s; pointer-events:none; z-index:9999; white-space:nowrap; box-shadow:0 8px 32px rgba(28,61,90,0.3); font-family:'Lato',sans-serif; letter-spacing:0.02em; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+@media(max-width:1200px){ .metrics-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:1024px){ .right-col{display:none;} }
+@media(max-width:768px){ .sidebar{display:none;} .feed{padding:12px;} .topnav{padding:0 10px;} .nav-center{display:none;} }
+
+/* ── Login Screen ── */
+.login-screen {
+  position:fixed; inset:0; z-index:9999;
+  background: linear-gradient(145deg, #1A3D5C 0%, #2D5B8A 55%, #7BA7C4 100%);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Lato',sans-serif;
+}
+.login-screen.hidden { display:none; }
+.login-box {
+  background:white; border-radius:20px;
+  padding:44px 40px 40px; width:100%; max-width:400px;
+  box-shadow:0 32px 80px rgba(28,61,90,0.35);
+  animation: loginSlide 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes loginSlide { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+.login-logo { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; margin-bottom:28px; }
+.login-logo-icon { width:64px; height:64px; border-radius:50%; background:var(--navy); display:flex; align-items:center; justify-content:center; }
+.login-logo-icon svg { width:28px; height:28px; fill:none; stroke:white; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.login-logo-text { font-size:13px; font-weight:700; color:var(--navy); letter-spacing:0.18em; text-transform:uppercase; font-family:'Lato',sans-serif; margin-top:2px; }
+.login-logo-sub { font-size:12px; color:var(--text3); font-style:italic; font-family:'Cormorant Garamond',serif; letter-spacing:0.05em; }
+.login-welcome { text-align:center; margin-bottom:28px; }
+.login-welcome h2 { font-size:22px; font-weight:300; color:var(--navy); letter-spacing:0.01em; margin-bottom:4px; font-family:'Cormorant Garamond',serif; }
+.login-welcome p { font-size:13px; color:var(--text2); letter-spacing:0.02em; }
+.login-field { margin-bottom:14px; }
+.login-field label { display:block; font-size:11px; font-weight:700; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.07em; }
+.login-input {
+  width:100%; padding:12px 14px; font-size:14px;
+  border:1.5px solid var(--border); border-radius:10px;
+  font-family:'Lato',sans-serif; color:var(--text);
+  outline:none; transition:all 0.18s; background:var(--surface2);
+}
+.login-input:focus { border-color:var(--fb-blue); background:white; box-shadow:0 0 0 3px rgba(45,91,138,0.12); }
+.login-input.error { border-color:var(--red); background:var(--red-light); box-shadow:0 0 0 3px rgba(176,92,106,0.1); }
+.login-pw-wrap { position:relative; }
+.login-pw-wrap .login-input { padding-right:44px; }
+.pw-toggle { position:absolute; right:13px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--text3); padding:4px; transition:color 0.15s; }
+.pw-toggle:hover { color:var(--fb-blue); }
+.pw-toggle svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; display:block; }
+.login-error {
+  background:var(--red-light); border:1px solid rgba(176,92,106,0.3);
+  border-radius:8px; padding:10px 14px;
+  font-size:13px; color:var(--red); font-weight:500;
+  display:none; margin-bottom:14px; text-align:center;
+}
+.login-error.show { display:block; animation:shake 0.35s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+.login-btn {
+  width:100%; padding:13px; background:var(--navy); color:white;
+  border:none; border-radius:10px; font-size:13px; font-weight:700;
+  font-family:'Lato',sans-serif; cursor:pointer; transition:all 0.18s;
+  margin-top:4px; letter-spacing:0.1em; text-transform:uppercase;
+}
+.login-btn:hover { background:var(--fb-blue-dark); transform:translateY(-1px); box-shadow:0 6px 20px rgba(28,61,90,0.35); }
+.login-btn:active { transform:translateY(0); }
+.login-btn:disabled { opacity:0.7; cursor:not-allowed; transform:none; }
+.login-footer { text-align:center; margin-top:20px; font-size:12px; color:var(--text3); font-style:italic; font-family:'Cormorant Garamond',serif; }
+
+/* ── User dropdown in nav ── */
+.user-menu-wrap { position:relative; }
+.user-dropdown {
+  position:absolute; top:calc(100% + 10px); right:0;
+  background:white; border:1px solid var(--border-light);
+  border-radius:12px; min-width:200px;
+  box-shadow:0 12px 40px rgba(28,61,90,0.18);
+  opacity:0; pointer-events:none; transform:translateY(-8px);
+  transition:all 0.18s; z-index:500;
+}
+.user-dropdown.open { opacity:1; pointer-events:all; transform:translateY(0); }
+.user-dropdown-header { padding:14px 16px 10px; border-bottom:1px solid var(--border-light); }
+.user-dropdown-name { font-size:14px; font-weight:700; color:var(--navy); font-family:'Cormorant Garamond',serif; }
+.user-dropdown-role { font-size:11px; color:var(--text3); margin-top:1px; letter-spacing:0.05em; text-transform:uppercase; }
+.user-dropdown-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 16px; font-size:13px; font-weight:500; color:var(--text);
+  cursor:pointer; transition:background 0.12s; font-family:'Lato',sans-serif;
+}
+.user-dropdown-item:hover { background:var(--surface2); }
+.user-dropdown-item:last-child { border-top:1px solid var(--border-light); color:var(--red); border-radius:0 0 12px 12px; }
+.user-dropdown-item:last-child:hover { background:var(--red-light); }
+.user-dropdown-item svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+
+/* dashboard hidden until logged in */
+.dashboard-root { display:none; }
+.dashboard-root.visible { display:block; }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ── -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/><circle cx="19" cy="17" r="3"/></svg>
+      </div>
+      <span class="login-logo-text">Introvert Quiet Path</span>
+      <span class="login-logo-sub">quiet progress, real results</span>
+    </div>
+    <div class="login-welcome">
+      <h2>Welcome back</h2>
+      <p>Sign in to your IQ Data Organizer</p>
+    </div>
+    <div class="login-error" id="login-error">Incorrect username or password. Try again.</div>
+    <div class="login-field">
+      <label>Username</label>
+      <input class="login-input" type="text" id="login-user" placeholder="Enter your username" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <div class="login-pw-wrap">
+        <input class="login-input" type="password" id="login-pass" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="pw-toggle" onclick="togglePw()" type="button" title="Show/hide password">
+          <svg id="pw-eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In</button>
+    <div class="login-footer">Introvert Quiet Path &middot; quiet progress, real results</div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div class="dashboard-root" id="dashboard-root">
+<header class="topnav">
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/><circle cx="19" cy="17" r="3"/></svg>
+    </div>
+    <span class="nav-logo-text">IQ Path</span>
+  </a>
+  <div class="nav-center">
+    <button class="nav-tab active">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    </button>
+    <button class="nav-tab" onclick="window.open(SHEET_URL,'_blank')" title="Open Google Sheets">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+    </button>
+    <button class="nav-tab" onclick="window.open(DRIVE_FOLDER,'_blank')" title="Open Google Drive">
+      <svg viewBox="0 0 24 24"><path d="M22 12.5A10.5 10.5 0 1 1 11.5 2"/><path d="M22 2L12 12M22 2h-6M22 2v6"/></svg>
+    </button>
+  </div>
+  <div class="nav-right">
+    <button class="nav-icon-btn" onclick="syncNow()" title="Sync with Google Sheets">
+      <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+    </button>
+    <button class="nav-icon-btn" onclick="exportCSV()">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
+    <button class="nav-icon-btn" onclick="showToast('No new notifications')">
+      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+    <div class="user-menu-wrap">
+      <div class="nav-avatar" onclick="toggleUserMenu()" title="Account menu" id="nav-avatar-btn">A</div>
+      <div class="user-dropdown" id="user-dropdown">
+        <div class="user-dropdown-header">
+          <div class="user-dropdown-name" id="dd-username">admin</div>
+          <div class="user-dropdown-role">Administrator</div>
+        </div>
+        <div class="user-dropdown-item" onclick="syncNow();toggleUserMenu()">
+          <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Sync Data
+        </div>
+        <div class="user-dropdown-item" onclick="window.open(SHEET_URL,'_blank');toggleUserMenu()">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Open Google Sheets
+        </div>
+        <div class="user-dropdown-item" onclick="doLogout()">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="body-root">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-heading">IQ Data Organizer</div>
+      <a class="sidebar-item active" href="#">
+        <div class="sidebar-icon blue"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+        All Entries <span class="sidebar-count blue" id="sb-total">0</span>
+      </a>
+      <a class="sidebar-item" href="#" onclick="setStatus('Active');return false;">
+        <div class="sidebar-icon green"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div>
+        Active <span class="sidebar-count" id="sb-active">0</span>
+      </a>
+      <a class="sidebar-item" href="#" onclick="setStatus('Draft');return false;">
+        <div class="sidebar-icon amber"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        Drafts
+      </a>
+      <a class="sidebar-item" href="#" onclick="setStatus('Archived');return false;">
+        <div class="sidebar-icon red"><svg viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div>
+        Archived <span class="sidebar-count" id="sb-arch">0</span>
+      </a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div>
+      <div class="sidebar-heading" style="font-size:15px">Categories</div>
+      <a class="sidebar-item" href="#" onclick="setType('Report');return false;">
+        <div class="sidebar-icon blue"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        Reports
+      </a>
+      <a class="sidebar-item" href="#" onclick="setType('Dataset');return false;">
+        <div class="sidebar-icon teal"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        Datasets
+      </a>
+      <a class="sidebar-item" href="#" onclick="setType('Document');return false;">
+        <div class="sidebar-icon amber"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div>
+        Documents
+      </a>
+      <a class="sidebar-item" href="#" onclick="setType('Media');return false;">
+        <div class="sidebar-icon green"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        Media
+      </a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-sync">
+      <span class="sync-dot"></span> Synced with Google Sheets
+    </div>
+  </aside>
+
+  <main class="feed">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:22px;font-weight:300;color:var(--navy);letter-spacing:0.01em;font-family:'Cormorant Garamond',serif;">IQ Data Organizer</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:2px;font-family:'JetBrains Mono',monospace" id="page-sub">Loading...</div>
+      </div>
+      <button class="btn btn-primary" onclick="openAddForm()">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Add Entry
+      </button>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-top"><div class="metric-ico blue"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/></svg></div></div>
+        <div class="metric-val" id="m-total">0</div><div class="metric-lbl">Total Entries</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-top"><div class="metric-ico green"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div></div>
+        <div class="metric-val" id="m-active">0</div><div class="metric-lbl">Active</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-top"><div class="metric-ico amber"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div></div>
+        <div class="metric-val" id="m-files">0</div><div class="metric-lbl">Files in Drive</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-top"><div class="metric-ico red"><svg viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div></div>
+        <div class="metric-val" id="m-archived">0</div><div class="metric-lbl">Archived</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input class="search-input" type="text" id="search-in" placeholder="Search entries, descriptions, notes..." oninput="renderEntries()">
+        </div>
+        <select class="type-sel" id="type-sel" onchange="renderEntries()">
+          <option value="">All types</option>
+          <option>Report</option><option>Document</option><option>Dataset</option><option>Media</option><option>Other</option>
+        </select>
+      </div>
+      <div class="filter-strip">
+        <button class="ftab active" onclick="setStatus('all',this)">All</button>
+        <button class="ftab" onclick="setStatus('Active',this)">Active</button>
+        <button class="ftab" onclick="setStatus('Draft',this)">Draft</button>
+        <button class="ftab" onclick="setStatus('Review',this)">Review</button>
+        <button class="ftab" onclick="setStatus('Archived',this)">Archived</button>
+      </div>
+      <div class="table-scroll">
+      <table>
+        <thead><tr>
+          <th style="width:75px">ID</th>
+          <th style="width:100px">Date</th>
+          <th>Entry</th>
+          <th style="width:95px">Type</th>
+          <th style="width:95px">Status</th>
+          <th style="width:110px">File</th>
+          <th style="width:100px">Notes</th>
+          <th style="width:90px"></th>
+        </tr></thead>
+        <tbody id="entries-tbody"></tbody>
+      </table>
+      </div>
+      <div class="empty-state" id="empty-state" style="display:none">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10M4 18h7"/></svg>
+        <p>No entries found</p><span>Adjust filters or add a new entry</span>
+      </div>
+    </div>
+  </main>
+
+  <aside class="right-col">
+    <div class="rc-card">
+      <div class="rc-head">
+        <div class="rc-title" id="form-label">New Entry</div>
+        <button class="btn btn-secondary btn-xs" onclick="clearForm()">Clear</button>
+      </div>
+      <div class="rc-body">
+        <div class="form-stack">
+          <input type="hidden" id="edit-id">
+          <div><div class="f-label">Title</div><input class="f-input" type="text" id="f-title" placeholder="Entry title..."></div>
+          <div><div class="f-label">Description</div><textarea class="f-textarea" id="f-desc" rows="2" placeholder="Brief description..."></textarea></div>
+          <div><div class="f-label">Date</div><input class="f-input" type="date" id="f-date"></div>
+          <div class="f-row">
+            <div><div class="f-label">Type</div><select class="f-select" id="f-type"><option>Report</option><option>Document</option><option>Dataset</option><option>Media</option><option>Other</option></select></div>
+            <div><div class="f-label">Status</div><select class="f-select" id="f-status"><option>Draft</option><option>Review</option><option>Active</option><option>Archived</option></select></div>
+          </div>
+          <div><div class="f-label">Notes</div><input class="f-input" type="text" id="f-notes" placeholder="Field notes..."></div>
+          <div>
+            <div class="f-label">File (Google Drive)</div>
+            <div class="upload-zone" onclick="handleFileInput()">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <p id="upload-label">Click to paste Drive link or filename</p>
+            </div>
+            <input type="hidden" id="f-fileurl">
+          </div>
+          <div class="form-btns">
+            <button class="btn btn-secondary btn-sm" onclick="clearForm()">Cancel</button>
+            <button class="btn btn-primary btn-sm" onclick="saveEntry()">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              Save to Sheets
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rc-card">
+      <div class="rc-head">
+        <div class="rc-title">Drive Storage</div>
+        <button class="btn btn-secondary btn-xs" onclick="window.open(DRIVE_FOLDER,'_blank')">Open ↗</button>
+      </div>
+      <div class="rc-body" style="padding-top:4px"><div id="drive-list"></div></div>
+    </div>
+
+    <div class="rc-card">
+      <div class="rc-head"><div class="rc-title">Activity Log</div></div>
+      <div class="rc-body" style="padding-top:4px"><div id="act-list"></div></div>
+    </div>
+  </aside>
+</div>
+
+<!-- Detail Drawer -->
+<div class="detail-panel" id="detail-panel">
+  <div class="detail-header">
+    <div><div class="detail-title" id="d-title">—</div><div class="detail-id" id="d-id">—</div></div>
+    <button class="detail-close" onclick="closeDetail()">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="detail-body">
+    <div class="d-row"><div class="d-key">Description</div><div class="d-desc" id="d-desc">—</div></div>
+    <div class="d-row"><div class="d-key">Date</div><div class="d-val" id="d-date">—</div></div>
+    <div class="d-row"><div class="d-key">Type</div><div class="d-val" id="d-type">—</div></div>
+    <div class="d-row"><div class="d-key">Status</div><div class="d-val" id="d-status">—</div></div>
+    <div class="d-row"><div class="d-key">Attached File</div><div class="d-val" id="d-file">—</div></div>
+    <div class="d-row"><div class="d-key">Notes</div><div class="d-notes" id="d-notes">—</div></div>
+  </div>
+  <div class="detail-foot">
+    <button class="btn btn-secondary btn-sm" id="d-edit-btn">Edit Entry</button>
+    <button class="btn btn-danger btn-sm" id="d-del-btn">Delete</button>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal-bg" id="del-modal">
+  <div class="modal">
+    <h3>Delete this entry?</h3>
+    <p>This will permanently remove the entry and its file link from Google Sheets and Drive. This cannot be undone.</p>
+    <div class="modal-acts">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Delete Entry</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+</div><!-- end .dashboard-root -->
+
+<script>
+// ══════════════════════════════════════════════
+//  AUTH — Login / Logout / Session persistence
+// ══════════════════════════════════════════════
+const AUTH_KEY  = 'dataorg_session';
+const VALID_USER = 'admin';
+const VALID_PASS = 'Thinkbig123*';
+
+function checkSession() {
+  const session = localStorage.getItem(AUTH_KEY);
+  if (session === 'authenticated') {
+    showDashboard();
+  }
+  // else login screen stays visible (default)
+}
+
+function showDashboard() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('dashboard-root').classList.add('visible');
+  loadEntries(); // load data only after auth
+}
+
+function doLogin() {
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+  const btn   = document.getElementById('login-btn');
+
+  errEl.classList.remove('show');
+  document.getElementById('login-user').classList.remove('error');
+  document.getElementById('login-pass').classList.remove('error');
+
+  if (!user || !pass) {
+    errEl.textContent = 'Please enter both username and password.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  // Small delay for UX feel
+  setTimeout(() => {
+    if (user === VALID_USER && pass === VALID_PASS) {
+      localStorage.setItem(AUTH_KEY, 'authenticated');
+      showDashboard();
+    } else {
+      errEl.textContent = 'Incorrect username or password. Try again.';
+      errEl.classList.add('show');
+      document.getElementById('login-user').classList.add('error');
+      document.getElementById('login-pass').classList.add('error');
+      document.getElementById('login-pass').value = '';
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+    }
+  }, 600);
+}
+
+function doLogout() {
+  localStorage.removeItem(AUTH_KEY);
+  toggleUserMenu();
+  document.getElementById('dashboard-root').classList.remove('visible');
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').classList.remove('show');
+  document.getElementById('login-user').classList.remove('error');
+  document.getElementById('login-pass').classList.remove('error');
+  document.getElementById('login-btn').disabled = false;
+  document.getElementById('login-btn').textContent = 'Sign In';
+  entries = [];
+  showToast('You have been signed out.');
+}
+
+function togglePw() {
+  const inp = document.getElementById('login-pass');
+  const ico = document.getElementById('pw-eye-icon');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    ico.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    inp.type = 'password';
+    ico.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+
+function toggleUserMenu() {
+  document.getElementById('user-dropdown').classList.toggle('open');
+}
+// Close dropdown when clicking outside
+document.addEventListener('click', e => {
+  const wrap = document.querySelector('.user-menu-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('user-dropdown').classList.remove('open');
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+//  ⚙️  CONFIGURATION — paste your Apps Script URL below
+// ═══════════════════════════════════════════════════════════
+const API_URL = 'https://script.google.com/macros/s/AKfycbxlG2be7sul-kZoiHNYU8CBpgBX6HRixviY3LlJNQXAVcsYWfo60GKtBkvHfdhju-4b5g/exec';
+// Example: 'https://script.google.com/macros/s/AKfycb.../exec'
+
+const DRIVE_FOLDER = 'https://drive.google.com/drive/folders/1Pp0lkYdkoi4liFYnzH-5b6-0ZHKRdwYU';
+const SHEET_URL    = 'https://docs.google.com/spreadsheets/d/1Pwecsx38iAopn658uMmIgxiNeE_jgmb7-2iZHmDsxDI/edit';
+// ═══════════════════════════════════════════════════════════
+
+// ── Run session check on page load ──
+checkSession();
+
+let entries = [];
+let pendingDeleteId = null;
+let currentStatus = 'all';
+let activity = [];
+let isLoading = false;
+
+// ── Helpers ──
+const pad   = n => String(n).padStart(3,'0');
+const sCls  = s => ({Active:'active',Draft:'draft',Archived:'archived',Review:'review'}[s]||'draft');
+const tCls  = t => (t||'other').toLowerCase();
+const fExt  = f => f ? f.split('.').pop().toLowerCase() : null;
+const fIco  = f => { const e=fExt(f); if(!e)return'file'; if(e==='pdf')return'pdf'; if(['docx','doc'].includes(e))return'doc'; if(['png','jpg','jpeg','gif','zip'].includes(e))return'img'; if(['xlsx','xls','csv'].includes(e))return'xls'; return'file'; };
+const fmtDate = d => { if(!d)return'—'; const s=String(d).trim(); const iso=s.match(/(\d{4})-(\d{2})-(\d{2})/); if(iso){const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return`${months[parseInt(iso[2],10)-1]} ${parseInt(iso[3],10)}, ${iso[1]}`;} const dt=new Date(s); if(!isNaN(dt)){const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return`${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;} return s; };
+const todayISO = () => new Date().toISOString().split('T')[0];
+const timeAgo  = () => new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+
+// ── Loading state ──
+function setLoading(on) {
+  isLoading = on;
+  const sub = document.getElementById('page-sub');
+  if (on) sub.textContent = 'Syncing with Google Sheets…';
+}
+
+// ── JSONP helper — bypasses CORS for Apps Script ──
+function jsonp(params) {
+  return new Promise((resolve, reject) => {
+    const cbName = '_cb_' + Date.now() + '_' + Math.floor(Math.random()*9999);
+    const qs = new URLSearchParams({ ...params, callback: cbName }).toString();
+    const script = document.createElement('script');
+    const timer = setTimeout(() => {
+      cleanup();
+      reject(new Error('Request timed out'));
+    }, 15000);
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+    window[cbName] = (data) => {
+      cleanup();
+      if (data && data.error) reject(new Error(data.error));
+      else resolve(data);
+    };
+    script.onerror = () => { cleanup(); reject(new Error('Network error — check your Apps Script URL')); };
+    script.src = API_URL + '?' + qs;
+    document.head.appendChild(script);
+  });
+}
+
+// ── API call to Apps Script (GET with JSONP) ──
+async function api(action, body = {}) {
+  try {
+    // Encode body params as URL params (Apps Script reads e.parameter)
+    const params = { action };
+    Object.keys(body).forEach(k => { if (body[k] !== undefined) params[k] = body[k]; });
+    const result = await jsonp(params);
+    return result;
+  } catch (err) {
+    showToast('❌ ' + err.message);
+    console.error(err);
+    return null;
+  }
+}
+
+// ── Normalize any date string to YYYY-MM-DD ──
+function toISODate(d) {
+  if (!d) return '';
+  const s = String(d).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const dt = new Date(s);
+  if (!isNaN(dt)) return dt.toISOString().split('T')[0];
+  return '';
+}
+
+// ── Load entries from Google Sheets ──
+async function loadEntries() {
+  setLoading(true);
+  const result = await api('getEntries');
+  setLoading(false);
+  if (result && result.entries) {
+    entries = result.entries.map(e => ({
+      id:     e.id     || '',
+      date:   toISODate(e.date),
+      title:  e.title  || '',
+      desc:   e.desc   || '',
+      type:   e.type   || 'Other',
+      status: e.status || 'Draft',
+      notes:  e.notes  || '',
+      file:   e.file   || '',
+    }));
+    addAct('Data loaded from Google Sheets', 'green');
+    renderEntries();
+  }
+}
+
+// ── Render table ──
+function renderEntries() {
+  const q  = document.getElementById('search-in').value.toLowerCase();
+  const tf = document.getElementById('type-sel').value;
+  const list = entries.filter(e =>
+    (currentStatus === 'all' || e.status === currentStatus) &&
+    (!tf || e.type === tf) &&
+    (!q  || e.title.toLowerCase().includes(q) || (e.desc||'').toLowerCase().includes(q) || (e.notes||'').toLowerCase().includes(q))
+  );
+
+  const tbody = document.getElementById('entries-tbody');
+  const empty = document.getElementById('empty-state');
+
+  if (!list.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    tbody.innerHTML = list.map(e => {
+      const fileUrl  = e.fileurl || '';
+      const fileLabel = e.file || '';
+      const fc = fileLabel
+        ? `<a class="file-chip" href="${fileUrl||DRIVE_FOLDER}" target="_blank" onclick="event.stopPropagation()">
+             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+             ${fileLabel}
+           </a>`
+        : '<span class="no-file">—</span>';
+      const dateCell = e.date ? `<div class="entry-date-day">${fmtDate(e.date)}</div>` : '<span class="no-file">—</span>';
+      return `<tr onclick="viewDetail('${e.id}')">
+        <td><span class="entry-id">${e.id}</span></td>
+        <td>${dateCell}</td>
+        <td><div class="entry-title">${e.title}</div><div class="entry-desc">${e.desc||''}</div></td>
+        <td><span class="type-badge ${tCls(e.type)}">${e.type}</span></td>
+        <td><span class="status-badge ${sCls(e.status)}">${e.status}</span></td>
+        <td onclick="event.stopPropagation()">${fc}</td>
+        <td style="font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.notes||'—'}</td>
+        <td onclick="event.stopPropagation()"><div class="row-acts">
+          <button class="btn btn-secondary btn-xs" onclick="editEntry('${e.id}')">Edit</button>
+          <button class="btn btn-danger btn-xs"    onclick="askDelete('${e.id}')">Del</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
+
+  document.getElementById('m-total').textContent    = entries.length;
+  document.getElementById('m-active').textContent   = entries.filter(e=>e.status==='Active').length;
+  document.getElementById('m-files').textContent    = entries.filter(e=>e.file).length;
+  document.getElementById('m-archived').textContent = entries.filter(e=>e.status==='Archived').length;
+  document.getElementById('sb-total').textContent   = entries.length;
+  document.getElementById('sb-active').textContent  = entries.filter(e=>e.status==='Active').length;
+  document.getElementById('sb-arch').textContent    = entries.filter(e=>e.status==='Archived').length;
+  document.getElementById('page-sub').textContent   = `${entries.length} entries · synced ${timeAgo()}`;
+  renderDrive();
+  renderActivity();
+}
+
+// ── Drive panel ──
+function renderDrive() {
+  const dl    = document.getElementById('drive-list');
+  const files = entries.filter(e => e.file);
+  if (!files.length) {
+    dl.innerHTML = `<div class="drive-empty">No files yet — <a href="${DRIVE_FOLDER}" target="_blank" style="color:var(--fb-blue)">Open Drive folder ↗</a></div>`;
+    return;
+  }
+  dl.innerHTML = files.slice(0,6).map(e => `
+    <div class="drive-file">
+      <div class="drive-ico ${fIco(e.file)}">${fIco(e.file).toUpperCase()}</div>
+      <div class="drive-info">
+        <div class="drive-fname">${e.file}</div>
+        <div class="drive-fsub">${e.title}</div>
+      </div>
+      <a class="drive-open" href="${e.fileurl||DRIVE_FOLDER}" target="_blank">Open ↗</a>
+    </div>`).join('');
+}
+
+// ── Activity log ──
+function renderActivity() {
+  const el = document.getElementById('act-list');
+  if (!activity.length) { el.innerHTML = '<div class="drive-empty">No recent activity</div>'; return; }
+  el.innerHTML = activity.slice(0,6).map(a =>
+    `<div class="act-item"><div class="act-dot ${a.c}"></div><div><div>${a.text}</div><div class="act-time">${a.time}</div></div></div>`
+  ).join('');
+}
+
+// ── Filters ──
+function setStatus(val, btn) {
+  currentStatus = val;
+  if (btn) { document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+  renderEntries();
+}
+function setType(val) { document.getElementById('type-sel').value = val; renderEntries(); }
+
+// ── Form helpers ──
+function openAddForm()  { clearForm(); document.getElementById('f-title').focus(); }
+function clearForm() {
+  document.getElementById('edit-id').value = '';
+  ['f-title','f-desc','f-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-date').value   = todayISO();
+  document.getElementById('f-type').value   = 'Report';
+  document.getElementById('f-status').value = 'Draft';
+  document.getElementById('upload-label').textContent = 'Click to attach a file';
+  document.getElementById('f-fileurl').value = '';
+  document.getElementById('form-label').textContent = 'New Entry';
+}
+
+function editEntry(id) {
+  const e = entries.find(x => x.id === id);
+  if (!e) return;
+  closeDetail();
+  document.getElementById('edit-id').value          = id;
+  document.getElementById('f-title').value          = e.title;
+  document.getElementById('f-desc').value           = e.desc  || '';
+  document.getElementById('f-type').value           = e.type;
+  document.getElementById('f-status').value         = e.status;
+  document.getElementById('f-notes').value          = e.notes || '';
+  document.getElementById('f-date').value           = e.date  || todayISO();
+  document.getElementById('f-fileurl').value        = e.fileurl|| '';
+  document.getElementById('upload-label').textContent = e.file || 'Click to attach a file';
+  document.getElementById('form-label').textContent = 'Edit Entry';
+  document.getElementById('f-title').focus();
+}
+
+// ── Save (Create or Update) ──
+async function saveEntry() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { showToast('Please enter a title'); return; }
+
+  const editId  = document.getElementById('edit-id').value;
+  const ul      = document.getElementById('upload-label').textContent;
+  const fileurl = document.getElementById('f-fileurl').value.trim();
+
+  const data = {
+    title,
+    desc:    document.getElementById('f-desc').value,
+    type:    document.getElementById('f-type').value,
+    status:  document.getElementById('f-status').value,
+    notes:   document.getElementById('f-notes').value,
+    date:    document.getElementById('f-date').value || todayISO(),
+    file:    ul === 'Click to attach a file' ? '' : ul,
+    fileurl: fileurl
+  };
+
+  showToast('Saving to Google Sheets…');
+
+  if (editId) {
+    const result = await api('updateEntry', { id: editId, ...data });
+    if (result) {
+      const idx = entries.findIndex(e => e.id === editId);
+      entries[idx] = { ...entries[idx], ...data };
+      addAct(`'${title}' updated`, 'blue');
+      showToast('✅ Updated in Google Sheets');
+    }
+  } else {
+    const result = await api('addEntry', data);
+    if (result) {
+      entries.push({ id: result.id, ...data });
+      addAct(`New entry '${title}' added`, 'blue');
+      if (data.file) addAct(`File ${data.file} linked to Drive`, 'green');
+      showToast('✅ Saved to Google Sheets');
+    }
+  }
+
+  clearForm();
+  renderEntries();
+}
+
+// ── Detail drawer ──
+function viewDetail(id) {
+  const e = entries.find(x => x.id === id);
+  if (!e) return;
+  document.getElementById('d-title').textContent  = e.title;
+  document.getElementById('d-id').textContent     = e.id + ' · ' + e.type;
+  document.getElementById('d-desc').textContent   = e.desc   || '—';
+  document.getElementById('d-date').textContent   = fmtDate(e.date) || '—';
+  document.getElementById('d-type').innerHTML     = `<span class="type-badge ${tCls(e.type)}">${e.type}</span>`;
+  document.getElementById('d-status').innerHTML   = `<span class="status-badge ${sCls(e.status)}">${e.status}</span>`;
+  document.getElementById('d-notes').textContent  = e.notes  || '—';
+  const fileEl = document.getElementById('d-file');
+  if (e.file && e.fileurl) {
+    fileEl.innerHTML = `<a href="${e.fileurl}" target="_blank" style="color:var(--fb-blue);font-weight:600">${e.file} ↗</a>`;
+  } else if (e.file) {
+    fileEl.innerHTML = `<a href="${DRIVE_FOLDER}" target="_blank" style="color:var(--fb-blue);font-weight:600">${e.file} (Drive ↗)</a>`;
+  } else {
+    fileEl.textContent = 'No file attached';
+  }
+  document.getElementById('d-edit-btn').onclick = () => { editEntry(id); closeDetail(); };
+  document.getElementById('d-del-btn').onclick  = () => { closeDetail(); askDelete(id); };
+  document.getElementById('detail-panel').classList.add('open');
+}
+function closeDetail() { document.getElementById('detail-panel').classList.remove('open'); }
+
+// ── Delete ──
+function askDelete(id)  { pendingDeleteId = id; document.getElementById('del-modal').classList.add('open'); }
+function closeModal()   { document.getElementById('del-modal').classList.remove('open'); pendingDeleteId = null; }
+
+async function confirmDelete() {
+  const e = entries.find(x => x.id === pendingDeleteId);
+  showToast('Deleting…');
+  const result = await api('deleteEntry', { id: pendingDeleteId });
+  if (result) {
+    if (e) addAct(`'${e.title}' deleted`, 'red');
+    entries = entries.filter(x => x.id !== pendingDeleteId);
+    showToast('✅ Deleted from Google Sheets');
+    closeModal();
+    renderEntries();
+  }
+}
+
+// ── File input: paste a Google Drive link or filename ──
+function handleFileInput() {
+  const raw = prompt(
+    'Paste the Google Drive file link (or just type a filename):\n\nTip: In Drive, right-click a file → Share → Copy link',
+    ''
+  );
+  if (!raw) return;
+  // If it looks like a URL, store it as fileurl and extract a name
+  if (raw.startsWith('http')) {
+    document.getElementById('f-fileurl').value = raw;
+    // Try to get the file name from Drive URL or just show "Drive file"
+    const match = raw.match(/\/d\/([^/]+)/);
+    document.getElementById('upload-label').textContent = match ? `drive-file-${match[1].substring(0,8)}` : 'Drive file';
+    showToast('✅ Drive link saved — will link on save');
+  } else {
+    document.getElementById('upload-label').textContent = raw;
+    document.getElementById('f-fileurl').value = '';
+    showToast('Filename saved');
+  }
+}
+
+// ── Sync (manual refresh) ──
+async function syncNow() {
+  showToast('Syncing with Google Sheets…');
+  await loadEntries();
+  showToast('✅ Synced successfully');
+}
+
+// ── Activity log helper ──
+function addAct(text, c = 'blue') {
+  activity.unshift({ text, c, time: timeAgo() });
+  if (activity.length > 10) activity.pop();
+}
+
+// ── CSV Export ──
+function exportCSV() {
+  const rows = [
+    ['ID','Date','Title','Description','Type','Status','Notes','File','File URL'],
+    ...entries.map(e => [e.id, e.date||'', e.title, e.desc||'', e.type, e.status, e.notes||'', e.file||'', e.fileurl||''])
+  ];
+  const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'data-organizer-export.csv';
+  a.click();
+  showToast('Exported as CSV');
+}
+
+// ── Toast ──
+let toastT;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Event listeners ──
+document.getElementById('del-modal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') { closeDetail(); closeModal(); } });
+document.getElementById('f-date').value = todayISO();
+
+// ── Boot: session check handles loadEntries after auth ──
+</script>
+</body>
+</html>
